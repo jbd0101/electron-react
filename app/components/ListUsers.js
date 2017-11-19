@@ -1,16 +1,39 @@
 // @flow
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import FlipMove from 'react-flip-move';
 import styles from './Home.css';
+import UserItem from './ui/userItem';
 
 export default class ListUsers extends Component {
+  constructor(props){
+    super(props);
+    this.state = { users: [] };
+  }
+  componentWillMount() {
+    const root = 'https://jsonplaceholder.typicode.com';
+    let that = this;
+    axios.get(`${root}/users`).then((data) => {
+      that.setState({
+        users: data.data
+      });
+      return true;
+    }).catch((e) => {
+      console.log(e);
+    });
+  }
   render() {
     return (
       <div>
-        <div className={styles.container} data-tid="container">
-          <h2>get users</h2>
           <Link to="/">to home</Link>
-        </div>
+          <FlipMove duration={750} easing="ease-out">
+          {this.state.users.map((user) => {
+            return (
+              <UserItem key={user.id} user={user} />
+            );
+          })}
+        </FlipMove>
       </div>
     );
   }
