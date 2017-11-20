@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import FlipMove from 'react-flip-move';
-import styles from './Home.css';
+import { Pin, View } from 'react-desktop/macOs';
 import UserItem from './ui/userItem';
 
 export default class ListUsers extends Component {
@@ -25,16 +25,19 @@ export default class ListUsers extends Component {
   }
   render() {
     return (
-      <div>
-          <Link to="/">to home</Link>
-          <FlipMove duration={750} easing="ease-out">
-          {this.state.users.map((user) => {
-            return (
-              <UserItem key={user.id} user={user} />
-            );
-          })}
-        </FlipMove>
-      </div>
+      <View>
+        <div>
+            <Link to="/">to home</Link>
+            <Pin length={4} reveal />
+            <FlipMove duration={750} easing="ease-out">
+            {this.state.users.map((user) => {
+              return (
+                <UserItem key={user.id} user={user} />
+              );
+            })}
+          </FlipMove>
+        </div>
+    </View>
     );
   }
 }
